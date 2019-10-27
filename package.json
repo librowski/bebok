@@ -1,0 +1,32 @@
+{
+  "name": "bebok",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/librowski/bebok.git"
+  },
+  "keywords": [
+    "spa",
+    "single",
+    "page",
+    "application",
+    "library"
+  ],
+  "author": "Jan Librowski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/librowski/bebok/issues"
+  },
+  "homepage": "https://github.com/librowski/bebok#readme",
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.144"
+  }
+}
