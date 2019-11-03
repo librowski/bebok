@@ -8,5 +8,7 @@ module.exports = {
     sourceType: "module"
   },
   rules: {
+      "@typescript-eslint/no-explicit-any": 0,
+      "no-unused-vars": 0,
   }
 };

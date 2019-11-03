@@ -1,2 +1,3 @@
-const message = 'Hello world!';
-console.log(message);
+import component from "./framework-testing/component";
+
+console.log(component);
