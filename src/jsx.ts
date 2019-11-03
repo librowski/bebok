@@ -1,9 +1,9 @@
 export const bebokJSX =
     (
-        type: JSX.Element['type'],
-        attributes: JSX.Element['attributes'],
+        type: any,
+        attributes: any,
         ...args: any
-    ): JSX.Element => ({
+    ): JSX.VNode => ({
         type,
         attributes,
         children: [...args] || null,

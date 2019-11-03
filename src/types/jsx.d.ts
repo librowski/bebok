@@ -1,12 +1,9 @@
-import {RenderFunction} from "./shared";
+import {ComponentNode, HTMLNode, RenderFunction, TextNode} from "./shared";
 
 declare global {
     namespace JSX {
-        export type Element = {
-            type: keyof HTMLElementTagNameMap | RenderFunction;
-            attributes: any;
-            children: Element[];
-        }
-        type IntrinsicElements = { div: any }
+        export type VNode = HTMLNode | ComponentNode | TextNode;
+
+        type IntrinsicElements = { [elemName: string]: any }
     }
 }

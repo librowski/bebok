@@ -1,54 +1,57 @@
 {
-  "name": "bebok",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint:fix": "tsc --noEmit && eslint . --ext .ts --quiet --fix",
-    "build": "npx webpack-cli --config webpack.config.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/librowski/bebok.git"
-  },
-  "keywords": [
-    "spa",
-    "single",
-    "page",
-    "application",
-    "library"
-  ],
-  "author": "Jan Librowski",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/librowski/bebok/issues"
-  },
-  "homepage": "https://github.com/librowski/bebok#readme",
-  "dependencies": {
-    "lodash": "^4.17.15"
-  },
-  "devDependencies": {
-    "@types/lodash": "^4.14.144",
-    "@typescript-eslint/eslint-plugin": "^2.5.0",
-    "@typescript-eslint/parser": "^2.5.0",
-    "eslint": "^6.6.0",
-    "husky": "^3.0.9",
-    "lint-staged": "^10.0.0-1",
-    "ts-loader": "^6.2.1",
-    "typescript": "^3.6.4",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+    "name": "bebok",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "lint:fix": "tsc --noEmit && eslint . --ext .ts --quiet --fix",
+        "build": "npx webpack-cli --config webpack.config.js",
+        "dev": "webpack-dev-server"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/librowski/bebok.git"
+    },
+    "keywords": [
+        "spa",
+        "single",
+        "page",
+        "application",
+        "library"
+    ],
+    "author": "Jan Librowski",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/librowski/bebok/issues"
+    },
+    "homepage": "https://github.com/librowski/bebok#readme",
+    "dependencies": {
+        "lodash": "^4.17.15"
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.14.144",
+        "@typescript-eslint/eslint-plugin": "^2.5.0",
+        "@typescript-eslint/parser": "^2.5.0",
+        "eslint": "^6.6.0",
+        "html-webpack-plugin": "^3.2.0",
+        "husky": "^3.0.9",
+        "lint-staged": "^10.0.0-1",
+        "ts-loader": "^6.2.1",
+        "typescript": "^3.6.4",
+        "webpack": "^4.41.2",
+        "webpack-cli": "^3.3.9",
+        "webpack-dev-server": "^3.9.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,ts,tsx}": [
+            "npm run lint:fix",
+            "git add"
+        ]
     }
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "npm run lint:fix",
-      "git add"
-    ]
-  }
 }
