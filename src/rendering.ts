@@ -5,7 +5,7 @@ const isTextNode = (node: JSX.VNode): node is TextNode =>
     typeof node === 'string';
 
 const isComponentNode = (node: JSX.VNode): node is ComponentNode =>
-    !isTextNode(node) && node.type instanceof Function;
+    node instanceof Function;
 
 const isHTMLNode = (node: JSX.VNode): node is HTMLNode =>
     _.overEvery([
@@ -26,6 +26,7 @@ const addAttributes = (attributes: object) => (element: Element) => {
 };
 
 export const render = (container: Element, node: JSX.VNode) => {
+    console.log(node);
     if (isTextNode(node)) {
         container.append(document.createTextNode(node));
     } else if (isHTMLNode(node)) {
@@ -43,6 +44,8 @@ export const render = (container: Element, node: JSX.VNode) => {
 
         container.append(element);
     } else {
-        // TODO: COMPONENTS
+            [...node({ testProp: 'asdasd'})].forEach(
+                child => render(container, child)
+            );
     }
 };

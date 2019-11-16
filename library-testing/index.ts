@@ -1,9 +1,9 @@
-import component from "./component";
+import container from "./component";
 import {render} from "../src/rendering";
 
 const element = document.getElementById('root');
 
-render(element, component); // render element inside component
+console.log('CONTAINER');
+console.log(container);
 
-console.log('COMPONENT');
-console.log(component);
+render(element, container); // render element inside component

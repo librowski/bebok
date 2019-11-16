@@ -1,4 +1,4 @@
-import {ComponentNode, HTMLNode, RenderFunction, TextNode} from "./shared";
+import {ComponentNode, HTMLNode, TextNode} from "./shared";
 
 declare global {
     namespace JSX {

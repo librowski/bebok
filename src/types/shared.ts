@@ -1,10 +1,4 @@
-export type RenderFunction = (props: any) => JSX.VNode[];
-
-export type ComponentNode = {
-    type: RenderFunction;
-    attributes: object;
-    children: JSX.VNode[] | string;
-};
+export type ComponentNode = (props: any) => JSX.VNode[] | JSX.VNode;
 
 export type HTMLNode = {
     type: keyof HTMLElementTagNameMap;

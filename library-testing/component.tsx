@@ -12,16 +12,29 @@ const headerStyle = `
     font-size: 16px;
 `;
 
-const component = (
-    <div style={containerStyle}>
-        <h1 style={headerStyle}>
-            BebokJS
-        </h1>
-        <div style='background: #FAFAFA; box-shadow: 3px 5px 0px 0px #999999; margin: 5px;'>
-            Oto prosty test działania biblioteki
+const Component = ({ testProp }: { testProp: string }) => {
+    return (
+        <div style={containerStyle}>
+            <h1 style={headerStyle}>
+                BebokJS
+            </h1>
+            <div
+                style='background: #FAFAFA; box-shadow: 3px 5px 0px 0px #999999; margin: 5px;'>
+                TestProp: {testProp || 'brak'}
+            </div>
+            {[1, 2].map(a => `numer ${a}`)}
         </div>
-        {[1, 2].map(a => `numer ${a}`)}
-    </div>
-);
+    );
+};
 
-export default component;
+const Container = () => {
+
+    return (
+        <div>
+            <Component testProp={'cokolwiek'} />
+            <Component testProp={'coś innego'} />
+        </div>
+    )
+};
+
+export default Container;
