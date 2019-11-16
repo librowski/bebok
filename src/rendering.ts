@@ -36,7 +36,7 @@ export const render = (container: Element, node: JSX.VNode) => {
             type => document.createElement(type),
         )(type);
 
-        [].concat(children)
+        [].concat(...children)
             .forEach(child =>
                 render(element, child)
             );

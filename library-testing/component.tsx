@@ -20,6 +20,7 @@ const component = (
         <div style='background: #FAFAFA; box-shadow: 3px 5px 0px 0px #999999; margin: 5px;'>
             Oto prosty test działania biblioteki
         </div>
+        {[1, 2].map(a => `numer ${a}`)}
     </div>
 );
 
