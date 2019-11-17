@@ -5,7 +5,7 @@ const isTextNode = (node: JSX.VNode): node is TextNode =>
     typeof node === 'string';
 
 const isComponentNode = (node: JSX.VNode): node is ComponentNode =>
-    node instanceof Function;
+    !isTextNode(node) && node?.value instanceof Function;
 
 const isHTMLNode = (node: JSX.VNode): node is HTMLNode =>
     _.overEvery([
@@ -26,26 +26,31 @@ const addAttributes = (attributes: object) => (element: Element) => {
 };
 
 export const render = (container: Element, node: JSX.VNode) => {
-    console.log(node);
+    const createElement = (value: string) => document.createElement(value);
+    const addToContainer = _.curry(render)(container);
+
     if (isTextNode(node)) {
         container.append(document.createTextNode(node));
     } else if (isHTMLNode(node)) {
-        const { attributes, children, type } = node;
+        const { attributes, children, value } = node;
 
         const element = _.flowRight(
             addAttributes(attributes),
-            type => document.createElement(type),
-        )(type);
+            createElement,
+        )(value);
 
-        [].concat(...children)
-            .forEach(child =>
-                render(element, child)
+        const addToElement = _.curry(render)(element);
+
+        _.flatten([children ?? []])
+            .forEach(
+                addToElement
             );
 
         container.append(element);
     } else {
-            [...node({ testProp: 'asdasd'})].forEach(
-                child => render(container, child)
+        [...node.value(node.attributes)]
+            .forEach(
+                addToContainer
             );
     }
 };

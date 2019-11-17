@@ -4,7 +4,7 @@ export const bebokJSX =
         attributes: any,
         ...args: any
     ): JSX.VNode => ({
-        type,
+        value: type,
         attributes,
         children: [...args] || null,
     });

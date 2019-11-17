@@ -1,9 +1,15 @@
-export type ComponentNode = (props: any) => JSX.VNode[] | JSX.VNode;
+export type RenderFunction = (props: any) => JSX.VNode[] | JSX.VNode;
+
+export type ComponentNode = {
+    value: RenderFunction;
+    attributes: object;
+    children: JSX.VNode[] | JSX.VNode | string;
+}
 
 export type HTMLNode = {
-    type: keyof HTMLElementTagNameMap;
+    value: keyof HTMLElementTagNameMap;
     attributes: object;
-    children: JSX.VNode[] | string;
+    children: JSX.VNode[] | JSX.VNode | string;
 }
 
 export type TextNode = string;
