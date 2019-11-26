@@ -1,7 +1,7 @@
 import {
     DOMUnit,
     FunctionUnit,
-    Operations,
+    Operations, StateMutator,
     Unit,
     WorkingState
 } from "./types/tasks";
@@ -14,6 +14,8 @@ export const workingState: WorkingState = {
     temporaryTree: null,
     currentTree: null,
     deprecatedUnits: [],
+    mutatorIdx: 0,
+    temporaryFunctionUnit: null,
 };
 
 const reconcileChildren = (unit: Unit, children: JSX.VNode[]) => {
@@ -71,8 +73,51 @@ const reconcileChildren = (unit: Unit, children: JSX.VNode[]) => {
 const isFunctionComponent = (unit: Unit): unit is Unit<RenderFunction> => unit.value instanceof Function;
 
 const updateFunctionComponent = (unit: FunctionUnit) => {
+    workingState.temporaryFunctionUnit = unit;
+    workingState.mutatorIdx = 0;
+    workingState.temporaryFunctionUnit.mutators = [];
+
     const children = _.flatten([unit.value(unit.props)] ?? []);
     reconcileChildren(unit, children);
+};
+
+type MutatorAction<T> = (prev: T) => T;
+type SetStateFunction<T> = (action: MutatorAction<T>) => void;
+
+export const useState = <T>(initial: T): [T, SetStateFunction<T>] => {
+    const { temporaryFunctionUnit } = workingState;
+    const oldMutator = temporaryFunctionUnit
+        ?.old
+        ?.mutators[workingState.mutatorIdx];
+
+    const mutator: StateMutator<T> = {
+        state: oldMutator ? oldMutator.state : initial,
+        queue: [],
+    };
+
+    const actions = oldMutator?.queue ?? [];
+    actions.forEach(action => {
+        mutator.state = action(mutator.state);
+    });
+
+    const setState: SetStateFunction<T> = action => {
+        mutator.queue.push(action);
+        console.log("SET STATE");
+
+        workingState.temporaryTree = {
+            value: 'ROOT',
+            dom: workingState.currentTree.dom,
+            props: workingState.currentTree.props,
+            old: workingState.currentTree,
+        };
+
+        workingState.nextUnit = workingState.temporaryTree;
+        workingState.deprecatedUnits = [];
+    };
+
+    temporaryFunctionUnit.mutators.push(mutator);
+    workingState.mutatorIdx++;
+    return [mutator.state, setState];
 };
 
 const updateDOMComponent = (domUnit: DOMUnit) => {
@@ -154,8 +199,6 @@ const workLoop: IdleRequestCallback = (deadline) => {
     const canWork = () => deadline.timeRemaining() >= 1 && workingState.nextUnit;
 
     while (canWork()) {
-        console.log(deadline.timeRemaining());
-        console.log(workingState.nextUnit);
         workingState.nextUnit = processUnit(workingState.nextUnit);
     }
 

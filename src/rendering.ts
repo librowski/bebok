@@ -30,7 +30,8 @@ const setNewProps: PropsComparingFunction<(dom: Node) => void> = (prev, next) =>
 
 const getEventType = _.flowRight(
     _.toLower,
-    _.take(2),
+    _.join(''),
+    _.drop(2),
 );
 
 const removeDeprecatedEvents: PropsComparingFunction<(dom: Node) => void> = (prev, next) => (dom: any) => _.flowRight(
@@ -47,7 +48,10 @@ const removeDeprecatedEvents: PropsComparingFunction<(dom: Node) => void> = (pre
 )(prev);
 
 const setNewEvents: PropsComparingFunction<(dom: Node) => void> = (prev, next) => (dom: any) => _.flowRight(
-    _.forEach((name: keyof object) => dom.addEventListener(getEventType(name), next[name])),
+    _.forEach((name: keyof object) => {
+        console.log('[', dom, name, getEventType(name), ']');
+        dom.addEventListener(getEventType(name), next[name]);
+    }),
     _.filter(
         _.allPass([
             isPropNewIn(prev, next),
@@ -84,5 +88,7 @@ export const render = (container: Node, el: any) => {
     };
 
     workingState.deprecatedUnits = [];
+    workingState.temporaryFunctionUnit = null;
+    workingState.mutatorIdx = 0;
     workingState.nextUnit = workingState.temporaryTree;
 };

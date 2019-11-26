@@ -8,6 +8,11 @@ export enum Operations {
 
 type DOMValue = keyof HTMLElementTagNameMap | string;
 
+export type StateMutator<T = any> = {
+    state: T;
+    queue: ((prev: T) => T)[];
+}
+
 export type Unit<T = DOMValue | RenderFunction> = {
     value: T;
     props: any;
@@ -16,8 +21,9 @@ export type Unit<T = DOMValue | RenderFunction> = {
     parent?: Unit;
     sibling?: Unit;
     child?: Unit;
-    old?: Unit;
+    old?: Unit<T>;
     operation?: Operations;
+    mutators?: T extends RenderFunction ? StateMutator[] : never;
 };
 
 export type FunctionUnit = Unit<RenderFunction>;
@@ -28,4 +34,6 @@ export type WorkingState = {
     temporaryTree?: Unit;
     currentTree?: Unit;
     deprecatedUnits: Unit[];
+    temporaryFunctionUnit?: FunctionUnit;
+    mutatorIdx: number;
 }

@@ -1,5 +1,5 @@
 /** @jsx createElement */
-import { createElement } from "../src/jsx";
+import { createElement, useState } from '../src/index';
 
 const containerStyle = `
     border: 5px black solid;
@@ -13,11 +13,16 @@ const headerStyle = `
 `;
 
 const Component = ({ testProp }: { testProp: string }) => {
+    const [counter, setCounter] = useState(0);
+
     return (
         <div style={containerStyle}>
             <h1 style={headerStyle}>
-                Bebok JS
+                Bebok JS counter: {counter}
             </h1>
+            <button onClick={() => {console.log(counter); setCounter(prev => prev + 1)}}>
+                Kliknij
+            </button>
             <div
                 style='background: #FAFAFA; box-shadow: 3px 5px 0px 0px #999999; margin: 5px;'>
                 TestProp: {testProp || 'brak'}

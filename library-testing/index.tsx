@@ -1,8 +1,6 @@
 /** @jsx createElement */
-import { createElement } from "../src/jsx";
+import { createElement, render } from '../src/index';
 import App from "./component";
-import {render} from "../src/rendering";
-
 const root = document.getElementById('root');
 
 console.log('APP');
