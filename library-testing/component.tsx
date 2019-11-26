@@ -1,5 +1,5 @@
-/** @jsx bebokJSX */
-import { bebokJSX } from "../src/jsx";
+/** @jsx createElement */
+import { createElement } from "../src/jsx";
 
 const containerStyle = `
     border: 5px black solid;
@@ -16,7 +16,7 @@ const Component = ({ testProp }: { testProp: string }) => {
     return (
         <div style={containerStyle}>
             <h1 style={headerStyle}>
-                BebokJS
+                Bebok JS
             </h1>
             <div
                 style='background: #FAFAFA; box-shadow: 3px 5px 0px 0px #999999; margin: 5px;'>
@@ -28,7 +28,6 @@ const Component = ({ testProp }: { testProp: string }) => {
 };
 
 const Container = () => {
-
     return (
         <div>
             <Component testProp={'cokolwiek'} />

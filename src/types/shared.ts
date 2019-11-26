@@ -13,3 +13,7 @@ export type HTMLNode = {
 }
 
 export type TextNode = string;
+
+export type PropChecker = (key: string) => boolean;
+
+export type PropsComparingFunction<T> = (prev: object, next: object) => T;

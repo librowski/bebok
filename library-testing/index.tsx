@@ -1,11 +1,11 @@
-/** @jsx bebokJSX */
-import { bebokJSX } from "../src/jsx";
-import Container from "./component";
+/** @jsx createElement */
+import { createElement } from "../src/jsx";
+import App from "./component";
 import {render} from "../src/rendering";
 
-const element = document.getElementById('root');
+const root = document.getElementById('root');
 
-console.log('CONTAINER');
-console.log(Container);
+console.log('APP');
+console.log(App);
 
-render(element, <Container />); // render element inside component
+render(root, <App />); // render main <App /> component in root element
