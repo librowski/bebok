@@ -1,37 +1,10 @@
-# bebok
+# Bebok
 Bebok is a typescript library which simplifies the process of creating single page applications
 
-# Uruchamianie
+# Executing
 - `npm install`
 - `npm run dev`
 
-Pod adresem `localhost:8080` można zobaczyć działanie na przykładowym pliku `component.tsx`,
-gdzie kod:
+The examplanatory counter webpage example will run on `localhost:8080`
 
-```
-const containerStyle = `
-    border: 5px black solid;
-    background: #AFAFAF;
-    font-family: sans-serif;
-`;
-
-const headerStyle = `
-    color: #3F5F7F;
-    font-size: 16px;
-`;
-
-const component = (
-    <div style={containerStyle}>
-        <h1 style={headerStyle}>
-            BebokJS
-        </h1>
-        <div style='background: #FAFAFA; box-shadow: 3px 5px 0px 0px #999999; margin: 5px;'>
-            Oto prosty test działania biblioteki
-        </div>
-    </div>
-);
-```
-
-W przeglądarce zaprezentuje się tak:
-
-<img src='https://i.imgur.com/P8FpodF.png' />
+<div class="tenor-gif-embed" data-postid="15665784" data-share-method="host" data-width="100%" data-aspect-ratio="1.3532608695652173"><a href="https://tenor.com/view/gif-15665784">GIF</a> </div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
