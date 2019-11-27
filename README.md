@@ -9,6 +9,6 @@ The examplanatory counter webpage example will run on `localhost:8080`
 
 # Counter example
 
-<div style='width: 100%; display: flex; justify-content: center;'>
-    <img style='margin: auto;' src='https://media.giphy.com/media/LnQe6m25FYodro3p31/giphy.gif' />
+<div align="center">
+    <img src='https://media.giphy.com/media/LnQe6m25FYodro3p31/giphy.gif' />
 </div>
