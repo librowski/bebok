@@ -15,9 +15,11 @@ export type StateMutator<T = any> = {
 
 export type Unit<T = DOMValue | RenderFunction> = {
     value: T;
-    props: any;
+    props: {
+        children: JSX.VNode[];
+        [key: string]: any;
+    };
     dom: Node;
-    children?: JSX.VNode[];
     parent?: Unit;
     sibling?: Unit;
     child?: Unit;

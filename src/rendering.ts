@@ -9,22 +9,25 @@ const createTextNode = (value: string) => document.createTextNode(value);
 const isPropNewIn: PropsComparingFunction<PropChecker> = (prev, next) => (key: keyof object) => prev[key] !== next[key];
 const isPropGoneIn: PropsComparingFunction<PropChecker> = (prev, next) => key => !(key in next);
 const isEvent: PropChecker = key => key.startsWith('on');
+const isProp: PropChecker = key => !isEvent(key) && key !== 'children';
 
 const removeOldProps: PropsComparingFunction<(dom: Node) => void> = (prev, next) => (dom: any) => _.flowRight(
     _.each((key: keyof object) => dom[key] = ''),
-    _.filter(isPropGoneIn(prev, next)),
     _.filter(
-        _.negate(isEvent)
-    ),
+        _.allPass([
+            isPropGoneIn(prev, next),
+            isProp
+        ])),
     _.keys,
 )(prev);
 
 const setNewProps: PropsComparingFunction<(dom: Node) => void> = (prev, next) => (dom: any) => _.flowRight(
     _.each((key: keyof object) => dom[key] = next[key]),
-    _.filter(isPropNewIn(prev, next)),
     _.filter(
-        _.negate(isEvent)
-    ),
+        _.allPass([
+            isPropNewIn(prev, next),
+            isProp
+        ])),
     _.keys,
 )(next);
 
@@ -49,7 +52,6 @@ const removeDeprecatedEvents: PropsComparingFunction<(dom: Node) => void> = (pre
 
 const setNewEvents: PropsComparingFunction<(dom: Node) => void> = (prev, next) => (dom: any) => _.flowRight(
     _.forEach((name: keyof object) => {
-        console.log('[', dom, name, getEventType(name), ']');
         dom.addEventListener(getEventType(name), next[name]);
     }),
     _.filter(
@@ -82,13 +84,12 @@ export const render = (container: Node, el: any) => {
     workingState.temporaryTree = {
         value: 'ROOT',
         dom: container,
-        props: { },
-        children: [el],
+        props: {
+            children: [el]
+        },
         old: workingState.currentTree,
     };
 
     workingState.deprecatedUnits = [];
-    workingState.temporaryFunctionUnit = null;
-    workingState.mutatorIdx = 0;
     workingState.nextUnit = workingState.temporaryTree;
 };

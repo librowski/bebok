@@ -20,20 +20,19 @@ export const workingState: WorkingState = {
 
 const reconcileChildren = (unit: Unit, children: JSX.VNode[]) => {
     let index = 0;
-    let oldUnit = unit.old && unit.old.child;
+    let oldUnit = unit?.old?.child;
     let prevSibling: Unit = null;
 
-    while (index < children.length || oldUnit !== null) {
+    while (index < children.length || oldUnit) {
         const child = children[index];
         let newUnit: Unit = null;
 
-        const haveSameType = oldUnit && child && child.value === oldUnit.value;
+        const haveSameType = oldUnit && child?.value === oldUnit.value;
 
         if (haveSameType) {
             newUnit = {
                 value: oldUnit.value,
                 props: child.props,
-                children: child.children,
                 dom: oldUnit.dom,
                 parent: unit,
                 old: oldUnit,
@@ -44,7 +43,6 @@ const reconcileChildren = (unit: Unit, children: JSX.VNode[]) => {
             newUnit = {
                 value: child.value,
                 props: child.props,
-                children: child.children,
                 dom: null,
                 parent: unit,
                 old: null,
@@ -60,7 +58,7 @@ const reconcileChildren = (unit: Unit, children: JSX.VNode[]) => {
             oldUnit = oldUnit.sibling;
         }
 
-        if (index !== 0) {
+        if (index !== 0 && child) {
             prevSibling.sibling = newUnit;
         } else {
             unit.child = newUnit;
@@ -85,13 +83,12 @@ type MutatorAction<T> = (prev: T) => T;
 type SetStateFunction<T> = (action: MutatorAction<T>) => void;
 
 export const useState = <T>(initial: T): [T, SetStateFunction<T>] => {
-    const { temporaryFunctionUnit } = workingState;
-    const oldMutator = temporaryFunctionUnit
+    const oldMutator = workingState.temporaryFunctionUnit
         ?.old
-        ?.mutators[workingState.mutatorIdx];
+        ?.mutators?.[workingState.mutatorIdx];
 
     const mutator: StateMutator<T> = {
-        state: oldMutator ? oldMutator.state : initial,
+        state: oldMutator?.state ?? initial,
         queue: [],
     };
 
@@ -102,7 +99,6 @@ export const useState = <T>(initial: T): [T, SetStateFunction<T>] => {
 
     const setState: SetStateFunction<T> = action => {
         mutator.queue.push(action);
-        console.log("SET STATE");
 
         workingState.temporaryTree = {
             value: 'ROOT',
@@ -115,7 +111,7 @@ export const useState = <T>(initial: T): [T, SetStateFunction<T>] => {
         workingState.deprecatedUnits = [];
     };
 
-    temporaryFunctionUnit.mutators.push(mutator);
+    workingState.temporaryFunctionUnit.mutators.push(mutator);
     workingState.mutatorIdx++;
     return [mutator.state, setState];
 };
@@ -124,7 +120,7 @@ const updateDOMComponent = (domUnit: DOMUnit) => {
     if (!domUnit.dom) {
         domUnit.dom = createDOM(domUnit);
     }
-    reconcileChildren(domUnit, domUnit.children);
+    reconcileChildren(domUnit, domUnit.props.children);
 };
 
 const getNext = (unit: Unit): Unit => {

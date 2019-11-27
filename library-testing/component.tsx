@@ -20,7 +20,7 @@ const Component = ({ testProp }: { testProp: string }) => {
             <h1 style={headerStyle}>
                 Bebok JS counter: {counter}
             </h1>
-            <button onClick={() => {console.log(counter); setCounter(prev => prev + 1)}}>
+            <button onClick={() => setCounter(prev => prev + 1)}>
                 Kliknij
             </button>
             <div

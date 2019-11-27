@@ -2,8 +2,10 @@ import * as _ from 'lodash/fp';
 
 const createTextElement = (text: string): JSX.VNode => ({
     value: 'TEXT_ELEMENT',
-    props: { nodeValue: text },
-    children: [],
+    props: {
+        nodeValue: text,
+        children: []
+    },
 });
 
 const mapChildren = _.map(child => typeof child === 'object' ? child as JSX.VNode : createTextElement(child as string));
@@ -16,10 +18,10 @@ export const createElement =
     ): JSX.VNode => ({
         value,
         props: {
-            ...props
+            ...props,
+            children: _.flowRight(
+                mapChildren,
+                _.flatten,
+            )(children),
         },
-        children: _.flowRight(
-            mapChildren,
-            _.flatten,
-        )(children),
     });
