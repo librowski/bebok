@@ -80,9 +80,9 @@ const updateFunctionComponent = (unit: FunctionUnit) => {
 };
 
 type MutatorAction<T> = (prev: T) => T;
-type SetStateFunction<T> = (action: MutatorAction<T>) => void;
+type MutateFunction<T> = (action: MutatorAction<T>) => void;
 
-export const useState = <T>(initial: T): [T, SetStateFunction<T>] => {
+export const createLocalState = <T>(initial: T): [T, MutateFunction<T>] => {
     const oldMutator = workingState.temporaryFunctionUnit
         ?.old
         ?.mutators?.[workingState.mutatorIdx];
@@ -97,7 +97,7 @@ export const useState = <T>(initial: T): [T, SetStateFunction<T>] => {
         mutator.state = action(mutator.state);
     });
 
-    const setState: SetStateFunction<T> = action => {
+    const mutate: MutateFunction<T> = action => {
         mutator.queue.push(action);
 
         workingState.temporaryTree = {
@@ -113,7 +113,7 @@ export const useState = <T>(initial: T): [T, SetStateFunction<T>] => {
 
     workingState.temporaryFunctionUnit.mutators.push(mutator);
     workingState.mutatorIdx++;
-    return [mutator.state, setState];
+    return [mutator.state, mutate];
 };
 
 const updateDOMComponent = (domUnit: DOMUnit) => {

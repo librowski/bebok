@@ -1,5 +1,5 @@
 /** @jsx createElement */
-import { createElement, useState } from '../src/index';
+import { createElement, createLocalState } from '../src/index';
 
 const containerStyle = `
     border: 5px black solid;
@@ -13,7 +13,7 @@ const headerStyle = `
 `;
 
 const Component = ({ testProp }: { testProp: string }) => {
-    const [counter, setCounter] = useState(0);
+    const [counter, setCounter] = createLocalState(0);
 
     return (
         <div style={containerStyle}>

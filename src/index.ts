@@ -1,14 +1,14 @@
 import {render as _render} from "./rendering";
-import {useState as _useState} from "./workLoop";
+import {createLocalState as _createLocalState} from "./workLoop";
 import {createElement as _createElement} from "./jsx";
 
 export const render = _render;
-export const useState = _useState;
+export const createLocalState = _createLocalState;
 export const createElement = _createElement;
 
 const Bebok = {
     render,
-    useState,
+    createLocalState,
     createElement
 };
 
