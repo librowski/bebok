@@ -2,7 +2,7 @@
     "name": "simple-spa",
     "version": "1.0.3",
     "description": "Simple SPA library highly inspired by React. Made for educational purposes.",
-    "main": "index.js",
+    "main": "dist/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint:fix": "tsc --noEmit && eslint . --ext .ts --quiet --fix",
@@ -10,7 +10,7 @@
         "dev": "webpack-dev-server"
     },
     "files": [
-        "dist"
+        "dist/*"
     ],
     "repository": {
         "type": "git",
@@ -32,6 +32,7 @@
     "dependencies": {
         "lodash": "^4.17.15"
     },
+    "types": "dist/index.d.ts",
     "devDependencies": {
         "@types/lodash": "^4.14.149",
         "@types/requestidlecallback": "^0.3.1",

@@ -12,4 +12,4 @@ const SimpleSpa = {
     createElement
 };
 
-export default SimpleSpa;
+module.exports = SimpleSpa;
