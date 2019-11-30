@@ -4,7 +4,7 @@ import {
     Operations, StateMutator,
     Unit,
     WorkingState
-} from "./types/tasks";
+} from "./types/units";
 import {createDOM, updateDOM} from "./rendering";
 import * as _ from 'lodash/fp';
 import {RenderFunction} from "./types/shared";
@@ -18,54 +18,67 @@ export const workingState: WorkingState = {
     temporaryFunctionUnit: null,
 };
 
+const createUpdateUnit = (oldUnit: Unit, parent: Unit, vNode: JSX.VNode): Unit => ({
+    value: oldUnit.value,
+    props: vNode.props,
+    dom: oldUnit.dom,
+    parent,
+    old: oldUnit,
+    operation: Operations.UPDATE,
+});
+
+const createCreateUnit = (parent: Unit, vNode: JSX.VNode): Unit => ({
+    value: vNode.value,
+    props: vNode.props,
+    dom: null,
+    parent,
+    old: null,
+    operation: Operations.CREATE,
+});
+
+const markAsDeprecated = (unit: Unit) => {
+    unit.operation = Operations.DELETE;
+    workingState.deprecatedUnits.push(unit);
+};
+
 const reconcileChildren = (unit: Unit, children: JSX.VNode[]) => {
-    let index = 0;
     let oldUnit = unit?.old?.child;
     let prevSibling: Unit = null;
+    
+    const labelDeprecatedUnits = (oldUnit: Unit) => {
+        if (oldUnit) {
+            markAsDeprecated(oldUnit);
+            labelDeprecatedUnits(oldUnit.sibling);
+        }
+    };
 
-    while (index < children.length || oldUnit) {
-        const child = children[index];
+    children.forEach((child, idx) => {
         let newUnit: Unit = null;
-
         const haveSameType = oldUnit && child?.value === oldUnit.value;
 
         if (haveSameType) {
-            newUnit = {
-                value: oldUnit.value,
-                props: child.props,
-                dom: oldUnit.dom,
-                parent: unit,
-                old: oldUnit,
-                operation: Operations.UPDATE,
-            }
+            newUnit = createUpdateUnit(oldUnit, unit, child);
         }
         if (child && !haveSameType) {
-            newUnit = {
-                value: child.value,
-                props: child.props,
-                dom: null,
-                parent: unit,
-                old: null,
-                operation: Operations.CREATE,
-            }
+            newUnit = createCreateUnit(unit, child);
         }
         if (oldUnit && !haveSameType) {
-            oldUnit.operation = Operations.DELETE;
-            workingState.deprecatedUnits.push(oldUnit);
+            markAsDeprecated(oldUnit);
         }
 
         if (oldUnit) {
             oldUnit = oldUnit.sibling;
         }
 
-        if (index !== 0 && child) {
+        if (idx !== 0 && child) {
             prevSibling.sibling = newUnit;
         } else {
             unit.child = newUnit;
         }
         prevSibling = newUnit;
-        index ++;
-    }
+    });
+
+    labelDeprecatedUnits(oldUnit);
 };
 
 const isFunctionComponent = (unit: Unit): unit is Unit<RenderFunction> => unit.value instanceof Function;
@@ -149,11 +162,9 @@ const processUnit = (currUnit: Unit): Unit => {
 const commitOperation = (unit: Unit) => {
     if (unit) {
         const { parent, child, sibling } = unit;
-        let domParentUnit = unit.parent;
-        while (!domParentUnit.dom) {
-            domParentUnit = domParentUnit.parent;
-        }
-        const domParent = domParentUnit.dom;
+
+        const getParentDom = (unit: Unit): Node => unit.parent?.dom ?? getParentDom(unit.parent);
+        const domParent = getParentDom(unit);
 
         switch (unit.operation) {
             case Operations.CREATE:

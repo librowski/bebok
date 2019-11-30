@@ -1,6 +1,6 @@
 import * as _ from 'lodash/fp';
 import {PropChecker, PropsComparingFunction} from "./types/shared";
-import {DOMUnit} from "./types/tasks";
+import {DOMUnit} from "./types/units";
 import {workingState} from "./workLoop";
 
 const createEl = ({ value }: DOMUnit) => document.createElement(value);
