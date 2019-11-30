@@ -1,13 +1,12 @@
 import {
     DOMUnit,
     FunctionUnit,
-    Operations, StateMutator,
+    Operations, RenderFunction, StateMutator,
     Unit,
     WorkingState
-} from "./types/units";
+} from '../index';
 import {createDOM, updateDOM} from "./rendering";
 import * as _ from 'lodash/fp';
-import {RenderFunction} from "./types/shared";
 
 export const workingState: WorkingState = {
     nextUnit: null,

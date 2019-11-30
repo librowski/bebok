@@ -1,7 +1,6 @@
 import * as _ from 'lodash/fp';
-import {PropChecker, PropsComparingFunction} from "./types/shared";
-import {DOMUnit} from "./types/units";
 import {workingState} from "./workLoop";
+import {DOMUnit, PropChecker, PropsComparingFunction} from "../index";
 
 const createEl = ({ value }: DOMUnit) => document.createElement(value);
 const createTextNode = (value: string) => document.createTextNode(value);

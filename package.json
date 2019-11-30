@@ -1,6 +1,6 @@
 {
     "name": "simple-spa",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Simple SPA library highly inspired by React. Made for educational purposes.",
     "main": "dist/index.js",
     "scripts": {
@@ -10,7 +10,7 @@
         "dev": "webpack-dev-server"
     },
     "files": [
-        "dist/*"
+        "/dist/*"
     ],
     "repository": {
         "type": "git",
