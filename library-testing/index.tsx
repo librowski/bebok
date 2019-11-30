@@ -1,5 +1,5 @@
 /** @jsx createElement */
-import { createElement, render } from '../src/index';
+import { createElement, render } from '../index';
 import Container from "./components/Container";
 const root = document.getElementById('root');
 

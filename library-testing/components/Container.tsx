@@ -1,5 +1,5 @@
 /** @jsx createElement */
-import {createElement, createLocalState} from '../../src/index';
+import {createElement, createLocalState} from '../../index';
 import Button from "./Button";
 import Counter from "./Counter";
 

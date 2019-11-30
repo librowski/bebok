@@ -1,6 +1,6 @@
-import {render as _render} from "./rendering";
-import {createLocalState as _createLocalState} from "./workLoop";
-import {createElement as _createElement} from "./jsx";
+import {render as _render} from "./src/rendering";
+import {createLocalState as _createLocalState} from "./src/workLoop";
+import {createElement as _createElement} from "./src/jsx";
 
 export const render = _render;
 export const createLocalState = _createLocalState;

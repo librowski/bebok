@@ -1,5 +1,5 @@
 /** @jsx createElement */
-import { createElement } from '../../src/index';
+import { createElement } from '../../index';
 
 type Props = {
     onClick: (e: MouseEvent) => void;
