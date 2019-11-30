@@ -1,5 +1,5 @@
-# Bebok
-Bebok is a typescript library which simplifies the process of creating single page applications
+# SimpleSpa
+SimpleSpa is a typescript library which simplifies the process of creating single page applications
 
 # Executing
 - `npm install`
