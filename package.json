@@ -1,7 +1,7 @@
 {
-    "name": "bebok",
+    "name": "simple-spa",
     "version": "1.0.0",
-    "description": "",
+    "description": "Simple SPA library highly inspired by React. Made for educational purposes.",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +11,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/librowski/bebok.git"
+        "url": "git+https://github.com/librowski/simple-spa"
     },
     "keywords": [
         "spa",
@@ -23,9 +23,9 @@
     "author": "Jan Librowski",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/librowski/bebok/issues"
+        "url": "https://github.com/librowski/simple-spa/issues"
     },
-    "homepage": "https://github.com/librowski/bebok#readme",
+    "homepage": "https://github.com/librowski/simple-spa#readme",
     "dependencies": {
         "lodash": "^4.17.15"
     },

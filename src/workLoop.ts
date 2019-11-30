@@ -44,7 +44,7 @@ const markAsDeprecated = (unit: Unit) => {
 const reconcileChildren = (unit: Unit, children: JSX.VNode[]) => {
     let oldUnit = unit?.old?.child;
     let prevSibling: Unit = null;
-    
+
     const labelDeprecatedUnits = (oldUnit: Unit) => {
         if (oldUnit) {
             markAsDeprecated(oldUnit);

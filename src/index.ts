@@ -6,10 +6,10 @@ export const render = _render;
 export const createLocalState = _createLocalState;
 export const createElement = _createElement;
 
-const Bebok = {
+const SimpleSpa = {
     render,
     createLocalState,
     createElement
 };
 
-export default Bebok;
+export default SimpleSpa;
