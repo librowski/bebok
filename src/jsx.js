@@ -27,6 +27,6 @@ exports.createElement = function (value, props) {
     }
     return ({
         value: value,
-        props: __assign({}, props, { children: _.flowRight(mapChildren, _.flatten)(children) })
+        props: __assign(__assign({}, props), { children: _.flowRight(mapChildren, _.flatten)(children) })
     });
 };

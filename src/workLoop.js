@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-var units_1 = require("./types/units");
+var index_1 = require("../index");
 var rendering_1 = require("./rendering");
 var _ = require("lodash/fp");
 exports.workingState = {
@@ -17,7 +17,7 @@ var createUpdateUnit = function (oldUnit, parent, vNode) { return ({
     dom: oldUnit.dom,
     parent: parent,
     old: oldUnit,
-    operation: units_1.Operations.UPDATE
+    operation: index_1.Operations.UPDATE
 }); };
 var createCreateUnit = function (parent, vNode) { return ({
     value: vNode.value,
@@ -25,14 +25,15 @@ var createCreateUnit = function (parent, vNode) { return ({
     dom: null,
     parent: parent,
     old: null,
-    operation: units_1.Operations.CREATE
+    operation: index_1.Operations.CREATE
 }); };
 var markAsDeprecated = function (unit) {
-    unit.operation = units_1.Operations.DELETE;
+    unit.operation = index_1.Operations.DELETE;
     exports.workingState.deprecatedUnits.push(unit);
 };
 var reconcileChildren = function (unit, children) {
-    var oldUnit = unit ? .old ? .child :  : ;
+    var _a, _b;
+    var oldUnit = (_b = (_a = unit) === null || _a === void 0 ? void 0 : _a.old) === null || _b === void 0 ? void 0 : _b.child;
     var prevSibling = null;
     var labelDeprecatedUnits = function (oldUnit) {
         if (oldUnit) {
@@ -41,8 +42,9 @@ var reconcileChildren = function (unit, children) {
         }
     };
     children.forEach(function (child, idx) {
+        var _a;
         var newUnit = null;
-        var haveSameType = oldUnit && child ? .value === oldUnit.value : ;
+        var haveSameType = oldUnit && ((_a = child) === null || _a === void 0 ? void 0 : _a.value) === oldUnit.value;
         if (haveSameType) {
             newUnit = createUpdateUnit(oldUnit, unit, child);
         }
@@ -67,21 +69,21 @@ var reconcileChildren = function (unit, children) {
 };
 var isFunctionComponent = function (unit) { return unit.value instanceof Function; };
 var updateFunctionComponent = function (unit) {
+    var _a;
     exports.workingState.temporaryFunctionUnit = unit;
     exports.workingState.mutatorIdx = 0;
     exports.workingState.temporaryFunctionUnit.mutators = [];
-    var children = _.flatten([unit.value(unit.props)] ?  ? [] :  : );
+    var children = _.flatten((_a = [unit.value(unit.props)], (_a !== null && _a !== void 0 ? _a : [])));
     reconcileChildren(unit, children);
 };
 exports.createLocalState = function (initial) {
-    var oldMutator = exports.workingState.temporaryFunctionUnit
-        ? .old
-            ? .mutators ? .[exports.workingState.mutatorIdx] :  :  : ;
+    var _a, _b, _c, _d, _e, _f, _g;
+    var oldMutator = (_c = (_b = (_a = exports.workingState.temporaryFunctionUnit) === null || _a === void 0 ? void 0 : _a.old) === null || _b === void 0 ? void 0 : _b.mutators) === null || _c === void 0 ? void 0 : _c[exports.workingState.mutatorIdx];
     var mutator = {
-        state: oldMutator ? .state ?  ? initial :  :  : ,
+        state: (_e = (_d = oldMutator) === null || _d === void 0 ? void 0 : _d.state, (_e !== null && _e !== void 0 ? _e : initial)),
         queue: []
     };
-    var actions = oldMutator ? .queue ?  ? [] :  :  : ;
+    var actions = (_g = (_f = oldMutator) === null || _f === void 0 ? void 0 : _f.queue, (_g !== null && _g !== void 0 ? _g : []));
     actions.forEach(function (action) {
         mutator.state = action(mutator.state);
     });
@@ -130,18 +132,18 @@ var processUnit = function (currUnit) {
 var commitOperation = function (unit) {
     if (unit) {
         var parent_1 = unit.parent, child = unit.child, sibling = unit.sibling;
-        var getParentDom_1 = function (unit) { return unit.parent ? .dom ?  ? getParentDom_1(unit.parent) :  :  : ; };
+        var getParentDom_1 = function (unit) { var _a, _b; return _b = (_a = unit.parent) === null || _a === void 0 ? void 0 : _a.dom, (_b !== null && _b !== void 0 ? _b : getParentDom_1(unit.parent)); };
         var domParent = getParentDom_1(unit);
         switch (unit.operation) {
-            case units_1.Operations.CREATE:
+            case index_1.Operations.CREATE:
                 if (unit.dom !== null) {
                     domParent.appendChild(unit.dom);
                 }
                 break;
-            case units_1.Operations.DELETE:
+            case index_1.Operations.DELETE:
                 parent_1.dom.removeChild(unit.dom);
                 break;
-            case units_1.Operations.UPDATE:
+            case index_1.Operations.UPDATE:
                 if (unit.dom !== null) {
                     rendering_1.updateDOM(unit.dom, unit.old.props, unit.props);
                 }
