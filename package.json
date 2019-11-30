@@ -1,6 +1,6 @@
 {
     "name": "simple-spa",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Simple SPA library highly inspired by React. Made for educational purposes.",
     "main": "index.js",
     "scripts": {
