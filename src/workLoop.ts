@@ -1,7 +1,9 @@
 import {
     DOMUnit,
     FunctionUnit,
-    Operations, RenderFunction, StateMutator,
+    Operations,
+    RenderFunction,
+    StateMutator,
     Unit,
     WorkingState
 } from '../index';
@@ -167,9 +169,7 @@ const commitDeleteOperation = (unit: Unit, domParent: Node) => {
 };
 
 const commitOperation = (unit: Unit) => {
-    if (unit) {
-        const { child, sibling } = unit;
-
+    if (!!unit) {
         const getParentDom = (unit: Unit): Node => unit.parent?.dom ?? getParentDom(unit.parent);
         const domParent = getParentDom(unit);
 
@@ -188,9 +188,10 @@ const commitOperation = (unit: Unit) => {
                 }
                 break;
         }
-
-        commitOperation(child);
-        commitOperation(sibling);
+        if (unit.operation !== Operations.DELETE) {
+            commitOperation(unit.child);
+        }
+        commitOperation(unit.sibling);
     }
 };
 
