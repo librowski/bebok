@@ -158,9 +158,17 @@ const processUnit = (currUnit: Unit): Unit => {
     return getNext(currUnit);
 };
 
+const commitDeleteOperation = (unit: Unit, domParent: Node) => {
+    if (unit.dom) {
+        domParent.removeChild(unit.dom);
+    } else {
+        commitDeleteOperation(unit.child, domParent);
+    }
+};
+
 const commitOperation = (unit: Unit) => {
     if (unit) {
-        const { parent, child, sibling } = unit;
+        const { child, sibling } = unit;
 
         const getParentDom = (unit: Unit): Node => unit.parent?.dom ?? getParentDom(unit.parent);
         const domParent = getParentDom(unit);
@@ -172,7 +180,7 @@ const commitOperation = (unit: Unit) => {
                 }
                 break;
             case Operations.DELETE:
-                parent.dom.removeChild(unit.dom);
+                commitDeleteOperation(unit, domParent);
                 break;
             case Operations.UPDATE:
                 if (unit.dom !== null) {
